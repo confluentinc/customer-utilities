@@ -12,9 +12,11 @@ Instructions:
    2. Run the script: ```sudo /usr/bin/support-metrics-bundle-ext script --zookeeper localhost:2181```
 
 Note that the script makes the following assumptions:
-   1. JPS has been installed and is present on the PATH
-	```which jps```
+   1. JPS has been installed and is present on the PATH 
+   
+         ```which jps```
    2. User executing the script has sufficient privileges to list the broker process with JPS
+
 	```sudo jps
 		12787 SupportedKafka
 		12149 QuorumPeerMain
