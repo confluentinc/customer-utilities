@@ -15,13 +15,14 @@
 # limitations under the License.
 
 MYSELF=`basename $0`
+HOSTNAME=`hostname`
 
 ###
 ### Configuration
 ###
 CONFLUENT_SUPPORT_METRICS_TOPIC="__confluent.support.metrics"
 TIMESTAMP=`date -u +"%Y%m%d-%H%M%S"`
-BUNDLE_FILE="support-metrics-${CONFLUENT_SUPPORT_METRICS_TOPIC}.${TIMESTAMP}.zip"
+BUNDLE_FILE="${HOSTNAME}.support-metrics-${CONFLUENT_SUPPORT_METRICS_TOPIC}.${TIMESTAMP}.zip"
 RUNTIME_SEC=10
 LOG4J_CONF="/etc/kafka/log4j.properties"
 LOG4J_DIR="/var/log/kafka"
@@ -115,7 +116,7 @@ if [ "x$KAFKA_HEAP_OPTS" = "x" ]; then
   export KAFKA_HEAP_OPTS="-Xmx512M"
 fi
 
-/usr/bin/kafka-run-class io.confluent.support.metrics.tools.KafkaMetricsToFile $ZOOKEEPER_SERVER $CONFLUENT_SUPPORT_METRICS_TOPIC $BUNDLE_FILE $RUNTIME_SEC
+/bin/kafka-run-class io.confluent.support.metrics.tools.KafkaMetricsToFile $ZOOKEEPER_SERVER $CONFLUENT_SUPPORT_METRICS_TOPIC $BUNDLE_FILE $RUNTIME_SEC
 
 if [ $? -eq 0 ]; then
   echo "Support metrics bundle created at $BUNDLE_FILE.  You may attach this file to your support tickets."
