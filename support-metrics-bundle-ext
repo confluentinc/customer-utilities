@@ -27,7 +27,7 @@ RUNTIME_SEC=10
 
 LOG4J_CONF=$(jps -v | grep SupportedKafka | awk '{for(i=1;i<=NF;i++){if($i~"log4j"){print $i}}}')
 LOG4J_DIR=$(jps -v | grep SupportedKafka | awk '{for(i=1;i<=NF;i++){if($i~"logs.dir"){print $i}}}')
-
+MAX_DAYS=1
 ###
 ### Main
 ###
@@ -135,7 +135,7 @@ if [ -e "${LOG4J_CONF##*:}" ]; then
    fi
 
    grep "File=" ${LOG4J_CONF##*:} | while read -r line ; do
-       cp ${LOG4J_DIR##*=}/${line##*/} bundle
+	find ${LOG4J_DIR##*=} -name ${line##*/}* -type f -mtime -$MAX_DAYS -exec cp {} bundle/ \;
    done
 
    tar czvf bundle.tgz bundle
